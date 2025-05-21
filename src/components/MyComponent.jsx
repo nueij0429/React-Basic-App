@@ -8,7 +8,8 @@ export default class MyComponent extends Component {
     value: 0,
     message: '',
     username: '',
-    isValid: false
+    isValid: false,
+    messageArr: ['Angular','React','Vue','Ember']
   }
   //Event Handler 함수
   handleDecrement = () => (
@@ -24,9 +25,11 @@ export default class MyComponent extends Component {
   };
 
   handleEnter = (e) => {
+    const { message, messageArr } = this.state;
     if(e.keyCode === 13) {
         this.setState({
             isValid: true,
+            messageArr: [...messageArr, message],
             message: ''
         });
         this.myUsername.focus();
@@ -36,9 +39,9 @@ export default class MyComponent extends Component {
   render() {
     //destructuring assignment
     const { name, age } = this.props;
-    const { value, message, username, isValid } = this.state;
+    const { value, message, username, isValid, messageArr} = this.state;
     const { handleDecrement, handleChange, handleEnter } = this;
-
+    const messageList = messageArr.map((msg,idx)=> (<li key={idx} >{msg}</li>));
     return (
       <div>
         <h2>클래스형 컴포넌트</h2>
@@ -52,6 +55,9 @@ export default class MyComponent extends Component {
         <input name="message" value={message} onChange={handleChange}
             onKeyDown={handleEnter}
         /><br/>
+        <ul>
+          {messageList}
+        </ul>
         <p>State username의 값 = {username}</p>
         <input name="username" value={username} onChange={handleChange} 
             className={ isValid ? 'success' : 'failure'}
