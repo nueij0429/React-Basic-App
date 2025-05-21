@@ -23,11 +23,21 @@ export default class MyComponent extends Component {
     });
   };
 
+  handleEnter = (e) => {
+    if(e.keyCode === 13) {
+        this.setState({
+            isValid: true,
+            message: ''
+        });
+        this.myUsername.focus();
+    }//if
+  };
+
   render() {
     //destructuring assignment
     const { name, age } = this.props;
     const { value, message, username, isValid } = this.state;
-    const { handleDecrement, handleChange } = this;
+    const { handleDecrement, handleChange, handleEnter } = this;
 
     return (
       <div>
@@ -39,10 +49,13 @@ export default class MyComponent extends Component {
         )}>증가</button>
         <button onClick={handleDecrement}>감소</button> <br/>
         <p>State message의 값 = {message} </p>
-        <input name="message" value={message} onChange={handleChange} /><br/>
+        <input name="message" value={message} onChange={handleChange}
+            onKeyDown={handleEnter}
+        /><br/>
         <p>State username의 값 = {username}</p>
         <input name="username" value={username} onChange={handleChange} 
             className={ isValid ? 'success' : 'failure'}
+            ref={ (ref) => this.myUsername=ref }
         /><br/>
 
       </div>
